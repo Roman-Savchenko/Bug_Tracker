@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Symfony Standard Edition
 ========================
 
@@ -70,3 +71,6 @@ Enjoy!
 [11]: https://symfony.com/doc/2.7/cookbook/logging/monolog.html
 [12]: https://symfony.com/doc/2.7/cookbook/assetic/asset_management.html
 [13]: https://symfony.com/doc/2.7/bundles/SensioGeneratorBundle/index.html
+=======
+# Bug_Tracker
+>>>>>>> 391ec2853191ee4b8c8b8726d9f10cdd9fd99aec
