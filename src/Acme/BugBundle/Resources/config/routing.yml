@@ -1,0 +1,7 @@
+acme_bug_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AcmeBugBundle:Default:index }
+
+main:
+    path:     /main
+    defaults: { _controller: AcmeBugBundle:Registration:register }
