@@ -2,12 +2,28 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Bug Tracker System{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets 'bundles/acmebug/css/main.css' filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
+    <div class ="dashboard">
+        {% block body %}
+                <div class="main"> <a href="/main">Main</a></div>
+                <div class="project"><a href="{{ url('project') }}">Project</a></div>
+                <div class="issue"><a href="{{ url('new_issue') }}">Issue</a></div>
+                <div class="profile"><a href="/profile">Profile</a></div>
+        {% endblock %}
+            </div>
+            <div class="main_content">
+                {% block main_content %}
+
+                {% endblock %}
+            </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

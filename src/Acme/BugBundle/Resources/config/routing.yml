@@ -4,4 +4,20 @@ acme_bug_homepage:
 
 main:
     path:     /main
-    defaults: { _controller: AcmeBugBundle:Registration:register }
+    defaults: { _controller: AcmeBugBundle:User:registration }
+
+project:
+    path: /project
+    defaults: {_controller: AcmeBugBundle:Project:project }
+
+project_create:
+    path: /project/{page}
+    defaults: {_controller: AcmeBugBundle:Project:project_create }
+
+project_edit:
+     path: /project/{page}
+     defaults: {_controller: AcmeBugBundle:Project:project_edit }
+
+issue:
+    path: /issue
+    defaults: {_controller: AcmeBugBundle:Issue:issue }

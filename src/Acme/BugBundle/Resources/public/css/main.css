@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+div{
+    margin: 0px;
+    padding: 0px;
+}
+
+.dashboard{
+    top: 20px;
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    margin-top: 20px;
+    font-size: 25px;
+    border: 2px;
+    background-color: #0088CC;
+    overflow: auto;
+
+}
+.issue{
+    position: relative;
+    float: left;
+    margin-left: 50px;
+}
+a {
+    color: #000000;
+    text-decoration: none;
+}
+.main {
+    position: relative;
+    float: left;
+    margin-left: 0px;
+}
+.project{
+    position: relative;
+    float: left;
+    margin-left: 50px;
+}
+.profile{
+    position: relative;
+    float: left;
+    margin-left: 50px;
+}
+.main_content{
+    margin-top: 100px;
+}
+#edit-project{
+    margin-left: 1200px;
+}
+#create-project{
+    margin-left: 15px;
+}

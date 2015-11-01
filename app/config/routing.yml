@@ -1,5 +1,6 @@
 acme_bug:
-    resource: "@AcmeBugBundle/Resources/config/routing.yml"
+    resource: "@AcmeBugBundle/Controller/"
+    type:     annotation
     prefix:   /
 
 app:

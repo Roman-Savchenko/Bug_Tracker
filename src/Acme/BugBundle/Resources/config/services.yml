@@ -2,10 +2,22 @@ services:
 #    acme_bug.example:
 #        class: Acme\BugBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
-
-    bug.form.registration:
-        class:                Acme\BugBundle\Form\RegistrationType
+ app.form.registration:
+        class:         Acme\BugBundle\Form\RegistrationType
         tags:
-                            - { name: form.type, alias: bug_user_registration }
+                      - { name: form.type, alias: app_user_registration }
 
+ form.user.registration:
+        class:    Acme\BugBundle\Form\Type\UserType
+        tags:
+                - { name: form.type, alias: form_user_registration }
 
+ form.project.registration:
+        class:   Acme\BugBundle\Form\Type\ProjectType
+        tags:
+                - { name: form.type, alias: form_project_registration }
+
+ form.issue.registration:
+         class:   Acme\BugBundle\Form\Type\IssueType
+         tags:
+                 - { name: form.type, alias: form_issue_registration }

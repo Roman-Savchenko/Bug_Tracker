@@ -40,7 +40,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        ['AcmeBugBundle']
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -85,4 +85,4 @@ fos_user:
     user_class: Acme\BugBundle\Entity\User
     registration:
             form:
-                type: bug_user_registration
+                type: app_user_registration

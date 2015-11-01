@@ -35,6 +35,11 @@ class User extends BaseUser
     protected $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $full_name;
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     protected $avatar;
@@ -182,5 +187,29 @@ class User extends BaseUser
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set fullName
+     *
+     * @param string $fullName
+     *
+     * @return User
+     */
+    public function setFullName($fullName)
+    {
+        $this->full_name = $fullName;
+
+        return $this;
+    }
+
+    /**
+     * Get fullName
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->full_name;
     }
 }

@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+
+ {% block main_content %}
+     <form action="{{ url('project_create',{ 'page': 'create' }) }}" method="post" {{ form_enctype(form) }}>
+         {{ form_widget(form) }}
+     </form>
+ {% endblock %}

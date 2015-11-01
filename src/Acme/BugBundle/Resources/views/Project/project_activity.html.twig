@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block main_content %}
+    <form>
+        <button id="create-project" formaction="{{ url('project_create',{ 'page': 'create' }) }}">Create project</button>
+        <button id="edit-project" formaction="{{ url('project_edit',{'page':'edit'}) }}">Edit project</button>
+    </form>
+    <div class="summary-project">
+
+    </div>
+    <div class="project-activities>">
+
+    </div>
+{% endblock %}
