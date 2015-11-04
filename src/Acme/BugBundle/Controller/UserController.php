@@ -18,8 +18,23 @@ class UserController extends Controller
      */
     public function registrationAction(Request $request)
     {
+
         $user = new User();
         $form = $this->createForm('form_user_registration', $user);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $user = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirectToRoute('fos_user_registration_confirm');
+            }
+        }
+
         return $this->render('AcmeBugBundle:Registration:registration.html.twig', array(
             'form' => $form->createView(),
         ));
