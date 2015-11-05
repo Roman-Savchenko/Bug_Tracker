@@ -23,7 +23,7 @@ class IssueController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/issue/{page}", name="issue_create")
      */
-    public function project_createAction($page)
+    public function issue_createAction($page)
     {
         $user = new Issue();
         $form = $this->createForm('form_issue_registration', $user);

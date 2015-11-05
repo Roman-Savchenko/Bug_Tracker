@@ -2,13 +2,12 @@
 
 {% block main_content %}
     <form>
-        <button id="create-project" formaction="{{ url('project_create',{ 'page': 'create' }) }}">Create project</button>
-        <button id="edit-project" formaction="{{ url('project_edit',{'page':'edit'}) }}">Edit project</button>
+        <button id="create-project" formaction="{{ url('project_create') }}">Create project</button>
     </form>
         <p>Projects:</p>
     <ul>
     {% for key, title in titles %}
-        <li>{{ key }} / {{ title|e }}</li>
+        <li><a href="{{ url('project_code',{'code':key})}}">{{title}}</a></li>
     {% endfor %}
     </ul>
     <div class="summary-project">

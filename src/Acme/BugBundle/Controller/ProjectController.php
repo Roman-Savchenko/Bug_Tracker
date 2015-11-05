@@ -38,12 +38,15 @@ class ProjectController extends Controller
                {
                    $titles .= substr($value,0,1);
                }
+
             }
         }
-        $render = array_combine(array_unique(explode('0',ltrim($titles,"0"))),$ids);
+        $code = array_unique(explode('0',ltrim($titles,"0")));
+
+        $render = array_combine($code,$label_project);
 
         return $this->render('AcmeBugBundle:Project:project_activity.html.twig', array(
-            'titles'=>$label_project
+            'titles'=>$render
 
         ));
 
@@ -51,7 +54,7 @@ class ProjectController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/project/{page}", name="project_create")
+     * @Route("/project_create", name="project_create")
      */
     public function project_createAction(Request $request)
     {
@@ -80,11 +83,23 @@ class ProjectController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/project/{page}", name="project_edit")
+     * @Route("/project_edit", name="project_edit")
      */
-    public function project_editAction($page)
+    public function project_editAction(Request $request)
+    {
+        $project = new Project();
+        $form = $this->createForm('form_project_registration', $project);
+        return $this->render('AcmeBugBundle:Project:create_project.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/project/{code}", name="project_code")
+     */
+    public function project_codeAction($code)
     {
 
-        return $this->render('AcmeBugBundle:Project:create_project.html.twig');
+        return $this->render('AcmeBugBundle:Project:project_page.html.twig');
     }
 }

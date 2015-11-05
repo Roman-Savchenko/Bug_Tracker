@@ -11,13 +11,25 @@ project:
     defaults: {_controller: AcmeBugBundle:Project:project }
 
 project_create:
-    path: /project/{page}
+    path: /project_create
     defaults: {_controller: AcmeBugBundle:Project:project_create }
 
 project_edit:
-     path: /project/{page}
+     path: /project_edit
      defaults: {_controller: AcmeBugBundle:Project:project_edit }
 
 issue:
     path: /issue
     defaults: {_controller: AcmeBugBundle:Issue:issue }
+
+main_activity:
+    path: /main
+    defaults: {_controller: AcmeBugBundle:Registration:confirm }
+
+profile:
+    path: /profile
+    defaults: {_controller: AcmeBugBundle:User:profile }
+
+project_page:
+    path: /project/{code}
+    defaults: {_controller: AcmeBugBundle:Project:project_code  }

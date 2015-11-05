@@ -13,6 +13,7 @@ use Acme\BugBundle\Form\Type;
 class UserController extends Controller
 {
 
+
     /**
      * @Route("/main", name="form_user")
      */
@@ -31,10 +32,30 @@ class UserController extends Controller
                 $em->persist($user);
                 $em->flush();
 
-                return $this->redirectToRoute('fos_user_registration_confirm');
+                return $this->redirectToRoute('main_activity');
             }
         }
 
+        return $this->render('AcmeBugBundle:Registration:registration.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("main_activity", name="main_activity")
+     */
+    public function confirmAction(Request $request)
+    {
+        return $this->render('AcmeBugBundle:Registration:confirm.html.twig');
+    }
+
+    /**
+     * @Route("/profile", name="new_profile")
+     */
+    public function profileAction(Request $request)
+    {
+        $user = new User();
+        $form = $this->createForm('form_user_registration', $user);
         return $this->render('AcmeBugBundle:Registration:registration.html.twig', array(
             'form' => $form->createView(),
         ));

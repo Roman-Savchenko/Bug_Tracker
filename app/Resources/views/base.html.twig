@@ -13,10 +13,10 @@
     <body>
     <div class ="dashboard">
         {% block body %}
-                <div class="main"> <a href="/main">Main</a></div>
+                <div class="main"> <a href="{{ url('main_activity') }}">Main</a></div>
                 <div class="project"><a href="{{ url('project') }}">Project</a></div>
                 <div class="issue"><a href="{{ url('new_issue') }}">Issue</a></div>
-                <div class="profile"><a href="/profile">Profile</a></div>
+                <div class="profile"><a href="{{ url('new_profile') }}">Profile</a></div>
         {% endblock %}
             </div>
             <div class="main_content">

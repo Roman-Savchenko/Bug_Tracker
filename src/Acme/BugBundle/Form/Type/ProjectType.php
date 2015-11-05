@@ -13,7 +13,6 @@ class ProjectType extends AbstractType
         $builder
             ->add('label','text')
             ->add('summary','textarea')
-            ->add('code','textarea')
             ->add('members','choice')
             ->add('save', 'submit')
         ;
