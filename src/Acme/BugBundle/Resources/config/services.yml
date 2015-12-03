@@ -7,11 +7,6 @@ services:
         tags:
                       - { name: form.type, alias: app_user_registration }
 
- form.user.registration:
-        class:    Acme\BugBundle\Form\Type\UserType
-        tags:
-                - { name: form.type, alias: form_user_registration }
-
  form.project.registration:
         class:   Acme\BugBundle\Form\Type\ProjectType
         tags:
@@ -21,3 +16,13 @@ services:
          class:   Acme\BugBundle\Form\Type\IssueType
          tags:
                  - { name: form.type, alias: form_issue_registration }
+
+ project:
+      class:   Acme\BugBundle\Entity\Project
+
+ issue:
+      class:  Acme\BugBundle\Entity\Issue
+
+ helper:
+      class:   Acme\BugBundle\Entity\Helper
+      arguments: ["project","issue"]

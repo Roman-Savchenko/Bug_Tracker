@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+
+{% block main_content %}
+    <form>
+        <button id="edit-issue" formaction="{{ url('issue_edit') }}">Edit Issue</button>
+    </form>
+    <div class="label">
+        Description({{ issue.code }}):
+        <p> {{ issue.description }} </p>
+    </div>
+    <div class="issue_summary">
+        Summary:
+        <p>{{ issue.summary }}</p>
+    </div>
+
+{% endblock %}

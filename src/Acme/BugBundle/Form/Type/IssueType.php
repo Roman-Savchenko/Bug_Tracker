@@ -10,17 +10,29 @@ class IssueType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $type = array(
+            'bug'=> 'Bug',
+            'task'=>'Task',
+            'story'=>'Story',
+            'subtask'=>'Subtask'
+        );
         $builder
             ->add('summary','textarea')
-            ->add('code','textarea')
             ->add('description','textarea')
-            ->add('type','choice')
+            ->add('type','choice',array('choices'=>$type))
             ->add('priority','text')
-            ->add('status','choice')
-            ->add('resolution','text')
-            ->add('reporter','text')
-            ->add('assignee','text')
-            ->add('collaborator','choice')
+            ->add('status','text')
+            ->add('reporter','entity',array(
+                'class'=>'AcmeBugBundle:User',
+                'choice_label'=>'full_name'
+            ))
+            ->add('assignee','entity',array(
+                'class'=>'AcmeBugBundle:User',
+                'choice_label'=>'full_name'))
+            ->add('project','entity',array(
+                'class'=>'AcmeBugBundle:Project',
+                'choice_label'=>'label'
+            ))
             ->add('created','date')
             ->add('save', 'submit')
         ;

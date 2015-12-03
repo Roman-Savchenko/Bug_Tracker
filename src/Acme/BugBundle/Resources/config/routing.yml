@@ -2,9 +2,13 @@ acme_bug_homepage:
     path:     /hello/{name}
     defaults: { _controller: AcmeBugBundle:Default:index }
 
-main:
-    path:     /main
-    defaults: { _controller: AcmeBugBundle:User:registration }
+login:
+    path:     /login
+    defaults: { _controller: AcmeBugBundle:Security:login }
+
+register:
+    path:   /register
+    defaults: { _controller: AcmeBugBundle:Registration:register }
 
 project:
     path: /project
@@ -33,3 +37,19 @@ profile:
 project_page:
     path: /project/{code}
     defaults: {_controller: AcmeBugBundle:Project:project_code  }
+
+logout:
+    path: /logout
+
+
+issue_page:
+    path: /issue/{code}
+    defaults: {_controller: AcmeBugBundle:Issue:issue_code  }
+
+issue_create:
+    path: /issue_create
+    defaults: {_controller: AcmeBugBundle:Issue:issue_create }
+
+issue_edit:
+     path: /issue_edit
+     defaults: {_controller: AcmeBugBundle:Issue:issue_edit }

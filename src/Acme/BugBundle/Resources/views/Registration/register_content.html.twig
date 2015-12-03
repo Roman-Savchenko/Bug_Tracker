@@ -1,0 +1,5 @@
+{% trans_default_domain 'AcmeBugBundle' %}
+
+<form action="{{ path('fos_user_registration_register') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+</form>

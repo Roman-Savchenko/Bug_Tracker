@@ -36,6 +36,21 @@ class User extends BaseUser
     protected $name;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $time_zone;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="reporter")
+     */
+    protected $issues_reporter;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="assignee")
+     */
+    protected $issues_assignee;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     protected $full_name;
@@ -46,8 +61,7 @@ class User extends BaseUser
     protected $avatar;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Acme\BugBundle\Entity\Project", inversedBy="users")
-     * @ORM\JoinTable(name="users_projects")
+     * @ORM\ManyToMany(targetEntity="Acme\BugBundle\Entity\Project", mappedBy="members")
      */
     protected $projects;
 
@@ -62,6 +76,8 @@ class User extends BaseUser
         parent::__construct();
         $this->projects = new ArrayCollection();
         $this->issues = new ArrayCollection();
+        $this->issues_reporter = new ArrayCollection();
+        $this->issues_assignee = new ArrayCollection();
     }
 
     /**
@@ -212,5 +228,97 @@ class User extends BaseUser
     public function getFullName()
     {
         return $this->full_name;
+    }
+
+    /**
+     * Set timeZone
+     *
+     * @param integer $timeZone
+     *
+     * @return User
+     */
+    public function setTimeZone($timeZone)
+    {
+        $this->time_zone = $timeZone;
+
+        return $this;
+    }
+
+    /**
+     * Get timeZone
+     *
+     * @return integer
+     */
+    public function getTimeZone()
+    {
+        return $this->time_zone;
+    }
+
+    /**
+     * Add issuesReporter
+     *
+     * @param \Acme\BugBundle\Entity\Issue $issuesReporter
+     *
+     * @return User
+     */
+    public function addIssuesReporter(\Acme\BugBundle\Entity\Issue $issuesReporter)
+    {
+        $this->issues_reporter[] = $issuesReporter;
+
+        return $this;
+    }
+
+    /**
+     * Remove issuesReporter
+     *
+     * @param \Acme\BugBundle\Entity\Issue $issuesReporter
+     */
+    public function removeIssuesReporter(\Acme\BugBundle\Entity\Issue $issuesReporter)
+    {
+        $this->issues_reporter->removeElement($issuesReporter);
+    }
+
+    /**
+     * Get issuesReporter
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIssuesReporter()
+    {
+        return $this->issues_reporter;
+    }
+
+    /**
+     * Add issuesAssignee
+     *
+     * @param \Acme\BugBundle\Entity\Issue $issuesAssignee
+     *
+     * @return User
+     */
+    public function addIssuesAssignee(\Acme\BugBundle\Entity\Issue $issuesAssignee)
+    {
+        $this->issues_assignee[] = $issuesAssignee;
+
+        return $this;
+    }
+
+    /**
+     * Remove issuesAssignee
+     *
+     * @param \Acme\BugBundle\Entity\Issue $issuesAssignee
+     */
+    public function removeIssuesAssignee(\Acme\BugBundle\Entity\Issue $issuesAssignee)
+    {
+        $this->issues_assignee->removeElement($issuesAssignee);
+    }
+
+    /**
+     * Get issuesAssignee
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIssuesAssignee()
+    {
+        return $this->issues_assignee;
     }
 }

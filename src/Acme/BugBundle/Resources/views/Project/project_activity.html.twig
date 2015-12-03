@@ -6,8 +6,8 @@
     </form>
         <p>Projects:</p>
     <ul>
-    {% for key, title in titles %}
-        <li><a href="{{ url('project_code',{'code':key})}}">{{title}}</a></li>
+    {% for  project in projects %}
+        <li><a href="{{ url('project_code',{'code':project.code})}}">{{project.label}}</a></li>
     {% endfor %}
     </ul>
     <div class="summary-project">

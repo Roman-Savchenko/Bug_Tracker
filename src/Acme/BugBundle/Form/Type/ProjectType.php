@@ -13,7 +13,7 @@ class ProjectType extends AbstractType
         $builder
             ->add('label','text')
             ->add('summary','textarea')
-            ->add('members','choice')
+            ->add('members', null,['multiple'=> true])
             ->add('save', 'submit')
         ;
     }
@@ -22,16 +22,20 @@ class ProjectType extends AbstractType
     {
         return 'form_project_registration';
     }
+
     public function getDefaultOptions(array $options)
     {
         return array(
             'data_class' => 'Acme\BugBundle\Entity\Project',
+            'user'=>array()
         );
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Acme\BugBundle\Entity\Project',
+            'user'=>array()
         ));
     }
  }

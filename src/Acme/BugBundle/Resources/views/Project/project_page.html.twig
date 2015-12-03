@@ -4,6 +4,13 @@
     <form>
         <button id="edit-project" formaction="{{ url('project_edit') }}">Edit project</button>
     </form>
-
+    <div class="label">
+        Label({{ project.code }}):
+       <p> {{ project.label }} </p>
+    </div>
+    <div class="project_summary">
+        Summary:
+        <p>{{ project.summary }}</p>
+    </div>
 
 {% endblock %}

@@ -4,5 +4,29 @@
     <form>
         <button id="create-issue" formaction="{{ url('issue_create',{ 'page': 'create' }) }}">Create Issue</button>
     </form>
+    <table  align="center" cellspacing="50">
+        <tr>
+            <th>Project</th>
+            <th>Issue</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th>Summary</th>
+            <th>Reporter</th>
+            <th>Assign</th>
+            <th>Update</th>
+        </tr>
+            {% for issue in issues %}
+                <tr>
+                <td>{{issue.project.code}}</td>
+                <td><a href="{{ url('issue_code',{'code':issue.code})}}">{{ issue.code }}</a></td>
+                    <td>{{ issue.status }}</td>
+                    <td>{{ issue.type }}</td>
+                    <td>{{ issue.summary }}</td>
+                    <td>{{ issue.reporter.fullname }}</td>
+                    <td>{{ issue.assignee.fullname }}</td>
+                    <td>{{ issue.updated.date }}</td>
+                </tr>
+                {% endfor %}
 
+    </table>
 {% endblock %}

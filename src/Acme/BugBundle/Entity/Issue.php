@@ -11,6 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Issue
 {
+    const STATUS_DISABLED = 0;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -24,7 +26,7 @@ class Issue
     protected $summary;
 
     /**
-     * @ORM\Column(type="string", length=300)
+     * @ORM\Column(type="string", length=20)
      */
     protected $code;
 
@@ -50,61 +52,61 @@ class Issue
     protected $status;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", options={"default":0})
      */
-    protected $resolution;
+    protected $resolution= self::STATUS_DISABLED;
 
     /**
-     * @ORM\Column(type="string",length= 15)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="issues_reporter")
+     * @ORM\JoinColumn(name="reporter_id", referencedColumnName="id")
      */
     protected $reporter;
 
     /**
-     * @ORM\Column(type="string", length= 15)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="issues_assignee")
+     * @ORM\JoinColumn(name="assignee_id", referencedColumnName="id")
      */
     protected $assignee;
 
     /**
-     * @ORM\Column(type="string", length= 15)
-     */
-    protected $collaborator;
-
-    /**
-     * @ORM\Column(type="string", length= 20)
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     protected $parent;
 
     /**
-     * @ORM\Column(type="string", length= 20)
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent")
      */
     protected $children;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="issues")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
     protected $project;
 
     /**
-     * @ORM\Column(type="string", length= 15)
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * @ORM\Column(type="string", length= 15)
+     * @ORM\Column(type="datetime")
      */
     protected $updated;
 
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="issues")
-     * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="projects_id", referencedColumnName="id")
      */
     protected $users;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
+
+
 
     /**
      * Get id
@@ -285,153 +287,9 @@ class Issue
     }
 
     /**
-     * Set reporter
-     *
-     * @param string $reporter
-     *
-     * @return Issue
-     */
-    public function setReporter($reporter)
-    {
-        $this->reporter = $reporter;
-
-        return $this;
-    }
-
-    /**
-     * Get reporter
-     *
-     * @return string
-     */
-    public function getReporter()
-    {
-        return $this->reporter;
-    }
-
-    /**
-     * Set assignee
-     *
-     * @param string $assignee
-     *
-     * @return Issue
-     */
-    public function setAssignee($assignee)
-    {
-        $this->assignee = $assignee;
-
-        return $this;
-    }
-
-    /**
-     * Get assignee
-     *
-     * @return string
-     */
-    public function getAssignee()
-    {
-        return $this->assignee;
-    }
-
-    /**
-     * Set collaborator
-     *
-     * @param string $collaborator
-     *
-     * @return Issue
-     */
-    public function setCollaborator($collaborator)
-    {
-        $this->collaborator = $collaborator;
-
-        return $this;
-    }
-
-    /**
-     * Get collaborator
-     *
-     * @return string
-     */
-    public function getCollaborator()
-    {
-        return $this->collaborator;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param string $parent
-     *
-     * @return Issue
-     */
-    public function setParent($parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return string
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Set children
-     *
-     * @param string $children
-     *
-     * @return Issue
-     */
-    public function setChildren($children)
-    {
-        $this->children = $children;
-
-        return $this;
-    }
-
-    /**
-     * Get children
-     *
-     * @return string
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * Set project
-     *
-     * @param string $project
-     *
-     * @return Issue
-     */
-    public function setProject($project)
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
-    /**
-     * Get project
-     *
-     * @return string
-     */
-    public function getProject()
-    {
-        return $this->project;
-    }
-
-    /**
      * Set created
      *
-     * @param string $created
+     * @param \DateTime $created
      *
      * @return Issue
      */
@@ -445,7 +303,7 @@ class Issue
     /**
      * Get created
      *
-     * @return string
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -455,7 +313,7 @@ class Issue
     /**
      * Set updated
      *
-     * @param string $updated
+     * @param \DateTime $updated
      *
      * @return Issue
      */
@@ -469,7 +327,7 @@ class Issue
     /**
      * Get updated
      *
-     * @return string
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -477,23 +335,163 @@ class Issue
     }
 
     /**
-     * Set users
+     * Set reporter
      *
-     * @param \Acme\BugBundle\Entity\Project $users
+     * @param \Acme\BugBundle\Entity\User $reporter
      *
      * @return Issue
      */
-    public function setUsers(\Acme\BugBundle\Entity\Project $users = null)
+    public function setReporter(\Acme\BugBundle\Entity\User $reporter = null)
     {
-        $this->users = $users;
+        $this->reporter = $reporter;
 
         return $this;
     }
 
     /**
-     * Get users
+     * Get reporter
+     *
+     * @return \Acme\BugBundle\Entity\User
+     */
+    public function getReporter()
+    {
+        return $this->reporter;
+    }
+
+    /**
+     * Set assignee
+     *
+     * @param \Acme\BugBundle\Entity\User $assignee
+     *
+     * @return Issue
+     */
+    public function setAssignee(\Acme\BugBundle\Entity\User $assignee = null)
+    {
+        $this->assignee = $assignee;
+
+        return $this;
+    }
+
+    /**
+     * Get assignee
+     *
+     * @return \Acme\BugBundle\Entity\User
+     */
+    public function getAssignee()
+    {
+        return $this->assignee;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Acme\BugBundle\Entity\Issue $parent
+     *
+     * @return Issue
+     */
+    public function setParent(\Acme\BugBundle\Entity\Issue $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Acme\BugBundle\Entity\Issue
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Add child
+     *
+     * @param \Acme\BugBundle\Entity\Issue $child
+     *
+     * @return Issue
+     */
+    public function addChild(\Acme\BugBundle\Entity\Issue $child)
+    {
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * Remove child
+     *
+     * @param \Acme\BugBundle\Entity\Issue $child
+     */
+    public function removeChild(\Acme\BugBundle\Entity\Issue $child)
+    {
+        $this->children->removeElement($child);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set project
+     *
+     * @param \Acme\BugBundle\Entity\Project $project
+     *
+     * @return Issue
+     */
+    public function setProject(\Acme\BugBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * Get project
      *
      * @return \Acme\BugBundle\Entity\Project
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \Acme\BugBundle\Entity\User $user
+     *
+     * @return Issue
+     */
+    public function addUser(\Acme\BugBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Acme\BugBundle\Entity\User $user
+     */
+    public function removeUser(\Acme\BugBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {

@@ -33,25 +33,24 @@ class Project
     protected $code;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\ManyToMany(targetEntity="Acme\BugBundle\Entity\User", inversedBy="projects")
+     * @ORM\JoinTable(name="members_projects")
      */
     protected $members;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="projects")
-     */
-    protected $users;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-        $this->issues = new ArrayCollection();
-    }
 
     /**
      * @ORM\OneToMany(targetEntity="Acme\BugBundle\Entity\Issue", mappedBy="project")
      **/
     protected $issues;
+
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+        $this->issues = new ArrayCollection();
+    }
+
+
+
 
     /**
      * Get id
@@ -136,61 +135,37 @@ class Project
     }
 
     /**
-     * Set members
+     * Add member
      *
-     * @param string $members
+     * @param \Acme\BugBundle\Entity\User $member
      *
      * @return Project
      */
-    public function setMembers($members)
+    public function addMember(\Acme\BugBundle\Entity\User $member)
     {
-        $this->members = $members;
+        $this->members[] = $member;
 
         return $this;
+    }
+
+    /**
+     * Remove member
+     *
+     * @param \Acme\BugBundle\Entity\User $member
+     */
+    public function removeMember(\Acme\BugBundle\Entity\User $member)
+    {
+        $this->members->removeElement($member);
     }
 
     /**
      * Get members
      *
-     * @return string
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMembers()
     {
         return $this->members;
-    }
-
-    /**
-     * Add user
-     *
-     * @param \Acme\BugBundle\Entity\User $user
-     *
-     * @return Project
-     */
-    public function addUser(\Acme\BugBundle\Entity\User $user)
-    {
-        $this->users[] = $user;
-
-        return $this;
-    }
-
-    /**
-     * Remove user
-     *
-     * @param \Acme\BugBundle\Entity\User $user
-     */
-    public function removeUser(\Acme\BugBundle\Entity\User $user)
-    {
-        $this->users->removeElement($user);
-    }
-
-    /**
-     * Get users
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUsers()
-    {
-        return $this->users;
     }
 
     /**
