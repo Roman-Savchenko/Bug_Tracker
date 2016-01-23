@@ -2,16 +2,38 @@
 
 
 {% block main_content %}
+    {% set roles = ['ROLE_ADMIN','ROLE_MANAGER','ROLE_OPERATOR'] %}
+    {% set edit_issue %}
+        <button id="edit-issue" formaction="{{ url('issue_edit',{'code':issue.code}) }}">Edit Issue</button>
+        <button id="comment" formaction="{{ path('issue_comment',{'code':issue.code}) }}">Comment</button>
+    {% endset %}
     <form>
-        <button id="edit-issue" formaction="{{ url('issue_edit') }}">Edit Issue</button>
+        {% for role in roles %}
+            {% if is_granted(role) %}
+                {{ edit_issue }}
+            {% endif %}
+        {% endfor %}
     </form>
+
+    <div class="issue_summary">
+        <ul>
+            <li>Summary:  {{ issue.summary }}</li>
+            <li>Assignee: {{ issue.assignee }}</li>
+            <li>Reporter: {{ issue.reporter }}</li>
+            <li>Status: {{ issue.status }} </li>
+        </ul>
+    </div>
     <div class="label">
         Description({{ issue.code }}):
         <p> {{ issue.description }} </p>
     </div>
-    <div class="issue_summary">
-        Summary:
-        <p>{{ issue.summary }}</p>
+
+    <div class="issue_comments">
+        Comments:
+{% for comment in comments %}
+<p>{{ comment.created.date }}:<a href="{{ path('new_profile') }}">{{ comment.author.username }}</a></p>
+        <p>{{ comment.body }}</p>
+    {% endfor %}
     </div>
 
 {% endblock %}

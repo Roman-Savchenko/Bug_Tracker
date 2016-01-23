@@ -26,7 +26,7 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        #- { path: ^/admin/, role: ROLE_ADMIN }
 
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
@@ -38,7 +38,7 @@ security:
         # disables authentication for assets and the profiler, adapt it according to your needs
         logout:
               path:   /logout
-              target: /main
+              target: /main_activity
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

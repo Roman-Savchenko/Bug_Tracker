@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+ {% block main_content %}
+     <form action="{{ path ('issue_comment',{ 'code':  code }) }}" method="post" {{ form_enctype(form) }}>
+         {{ form_errors(form) }}
+
+         {{ form_row(form.body) }}
+
+         {{ form_rest(form) }}
+
+     </form>
+ {% endblock %}

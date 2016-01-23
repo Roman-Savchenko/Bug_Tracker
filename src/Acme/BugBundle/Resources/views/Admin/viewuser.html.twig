@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+
+{% block main_content %}
+
+<ul>
+
+    <li>FullName:{{ user.fullname }}</li>
+    <li>Username:{{ user.username }}</li>
+</ul>
+
+
+    <a href="{{ path('edit_profile',{'id':user.id}) }}">Edit profile</a>
+{% endblock %}

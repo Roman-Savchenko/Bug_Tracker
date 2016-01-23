@@ -1,4 +1,5 @@
 <?php
+
 namespace Acme\BugBundle\EventListener;
 
 use FOS\UserBundle\FOSUserEvents;

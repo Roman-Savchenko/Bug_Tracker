@@ -8,8 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="project")
  **/
-class Project
+class Project implements GenerateCodeInterface
 {
+    const STATUS_DISABLED = 0;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -30,7 +31,7 @@ class Project
     /**
      * @ORM\Column(type="string", length=100)
      */
-    protected $code;
+    protected $code= self::STATUS_DISABLED;
 
     /**
      * @ORM\ManyToMany(targetEntity="Acme\BugBundle\Entity\User", inversedBy="projects")

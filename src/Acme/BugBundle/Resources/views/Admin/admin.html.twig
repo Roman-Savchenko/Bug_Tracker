@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block main_content %}
+
+    {% for user in users %}
+        <ul>
+            <li><a href="{{ url('admin_user_view',{'id': user.id})}}">{{ user.fullname }}</a></li>
+        </ul>
+        {% endfor %}
+{% endblock %}

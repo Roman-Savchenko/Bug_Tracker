@@ -4,13 +4,14 @@ namespace Acme\BugBundle\Controller;
 
 use Acme\BugBundle\Entity\Issue;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Acme\BugBundle\EventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Acme\BugBundle\Entity\Project;
 use Acme\BugBundle\Form\Type;
 use Acme\BugBundle\Repository;
-use Acme\BugBundle\Entity\Helper;
 
 class ProjectController extends Controller
 {
@@ -26,7 +27,6 @@ class ProjectController extends Controller
             'projects'=>$projects
 
         ));
-
     }
 
     /**
@@ -35,28 +35,20 @@ class ProjectController extends Controller
      */
     public function project_createAction(Request $request)
     {
-        $helper = new Helper();
-        $project = new Project();
-        $form = $this->createForm('form_project_registration', $project);
-        if ($request->getMethod() == 'POST') {
-            $form->handleRequest($request);
+        $form = $this->container->get('project.create')->Projectcreate($request);
 
-            if ($form->isValid()) {
-                $project = $form->getData();
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($project);
-                $code = $helper->getcode($project);
-                $project->setCode($code);
-                $em->flush();
-
-                return $this->redirectToRoute('project');
-            }
+        if ($form instanceof FormInterface) {
+            return $this->render('AcmeBugBundle:Project:create_project.html.twig', array(
+                'form' => $form->createView(),
+            ));
         }
-        return $this->render('AcmeBugBundle:Project:create_project.html.twig', array(
-            'form' => $form->createView(),
-        ));
 
+        return $this->redirectToRoute('project');
     }
+
+
+
+
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
@@ -81,6 +73,7 @@ class ProjectController extends Controller
             ->getRepository('AcmeBugBundle:Project')
             ->findOneBy(array('code' => $code));
 
+        $this->denyAccessUnlessGranted('view', $project);
         return $this->render('AcmeBugBundle:Project:project_page.html.twig',array(
             'project'=>$project
         ));

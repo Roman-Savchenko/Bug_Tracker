@@ -12,9 +12,6 @@ class Helper
      */
     public function getCode($entity)
     {
-//        $id = $entity->getId();
-//        $code = $id.'/'.$this->getAbbreviation($this->getLabel($entity));
-
         $label = $this->getLabel($entity);
         $abbreviation = $this->getAbbreviation($label);
         $code = sprintf('%s-%s',$abbreviation,$entity->getId());

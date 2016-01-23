@@ -1,8 +1,17 @@
 {% extends '::base.html.twig' %}
 
 {% block main_content %}
-    <form>
+    {% set roles = ['ROLE_ADMIN','ROLE_MANAGER','ROLE_OPERATOR'] %}
+    {% set create_issue %}
         <button id="create-issue" formaction="{{ url('issue_create',{ 'page': 'create' }) }}">Create Issue</button>
+    {% endset %}
+    <form>
+        {% for role in roles %}
+            {% if is_granted(role) %}
+                    {{ create_issue }}
+                {% else %}
+            {% endif %}
+        {% endfor %}
     </form>
     <table  align="center" cellspacing="50">
         <tr>

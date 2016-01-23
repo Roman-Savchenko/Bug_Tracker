@@ -1,8 +1,16 @@
 {% extends '::base.html.twig' %}
 
 {% block main_content %}
+    {% set create_project %}
+    <button id="create-project" formaction="{{ url('project_create') }}">Create project</button>
+    {% endset %}
     <form>
-        <button id="create-project" formaction="{{ url('project_create') }}">Create project</button>
+        {% if is_granted('ROLE_MANAGER')  %}
+            {{ create_project }}
+            {% elseif is_granted('ROLE_ADMIN') %}
+                {{ create_project }}
+            {% else %}
+        {% endif %}
     </form>
         <p>Projects:</p>
     <ul>

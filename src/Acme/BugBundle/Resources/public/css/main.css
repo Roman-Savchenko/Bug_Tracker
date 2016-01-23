@@ -28,6 +28,11 @@ div{
     float: left;
     margin-left: 50px;
 }
+.admin{
+    position:relative;
+    float:left;
+    margin-left: 50px;
+}
 a {
     text-decoration: none;
 }
@@ -54,4 +59,7 @@ a {
 }
 #create-project{
     margin-left: 15px;
+}
+#edit-profile{
+    margin-left: 1200px;
 }

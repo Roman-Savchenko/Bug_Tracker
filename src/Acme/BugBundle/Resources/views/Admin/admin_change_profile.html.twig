@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+
+{% block main_content %}
+
+    <form action="{{ path('edit_profile',{'id':user.id}) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    </form>
+{% endblock %}

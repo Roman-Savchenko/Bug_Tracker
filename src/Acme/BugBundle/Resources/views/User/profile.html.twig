@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+ {% block main_content %}
+<form>
+    <button id="edit-profile" formaction="{{ path('profile_edit') }}">Edit profile</button>
+</form>
+     <div class="profile">
+         <p>Username:{{ user.username }}</p>
+         <p>Full Name:{{ user.fullname }}</p>
+     </div>
+
+ {% endblock %}

@@ -1,8 +1,13 @@
 {% extends '::base.html.twig' %}
 
 {% block main_content %}
-    <form>
+    {% set edit_project  %}
         <button id="edit-project" formaction="{{ url('project_edit') }}">Edit project</button>
+    {% endset %}
+    <form>
+        {% if (is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN'))  %}
+            {{ edit_project }}
+        {% endif %}
     </form>
     <div class="label">
         Label({{ project.code }}):

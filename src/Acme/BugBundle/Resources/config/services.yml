@@ -17,12 +17,92 @@ services:
          tags:
                  - { name: form.type, alias: form_issue_registration }
 
+ form.admin:
+        class:  Acme\BugBundle\Form\Type\AdminType
+        arguments: []
+        tags:
+                - {name: form.type, alias: form_admin }
+
+ form.comment:
+        class:  Acme\BugBundle\Form\Type\CommentType
+        tags:
+               - {name: form.type, alias: form_comment }
+
+ form.activity:
+        class: Acme\BugBundle\Form\Type\ActivityType
+        tags:
+               - {name: form.type, alias: form_activity }
+
+ profile.edit:
+        class: Acme\BugBundle\Form\Type\UserType
+        tags:
+               - {name: form.type, alias: profile_edit }
+
  project:
       class:   Acme\BugBundle\Entity\Project
 
  issue:
       class:  Acme\BugBundle\Entity\Issue
 
+ comment:
+      class: Acme\BugBundle\Entity\Comment
+
+ user:
+      class: Acme\BugBundle\Entity\User
+
  helper:
       class:   Acme\BugBundle\Entity\Helper
       arguments: ["project","issue"]
+
+ my.listener:
+         class: Acme\BugBundle\EventListener\PostFlushListener
+         tags:
+             - { name: doctrine.event_listener, event: postPersist }
+
+ issue.event.listener:
+         class: Acme\BugBundle\EventListener\IssueEventListener
+         arguments: [@security.token_storage]
+         tags:
+             - {name: doctrine.event_listener, event: preUpdate }
+
+ security.access.project_voter:
+         class:      Acme\BugBundle\Security\PostProjectVoter
+         public:     false
+         tags:
+             - { name: security.voter }
+
+ issue.registration:
+        class: Acme\BugBundle\Services\IssueRegistrationContainer
+        arguments: [@form.factory, @doctrine]
+        tags:
+            - {name: issue.registration }
+
+ issue.comment:
+        class: Acme\BugBundle\Services\IssueCommentContainer
+        arguments: [ @form.factory, @doctrine, @comment, @user]
+        tags:
+            - {name: issue.comment }
+
+ issue.edit.status:
+        class: Acme\BugBundle\Services\IssueEditStatusContainer
+        arguments: [@form.factory, @doctrine ]
+        tags:
+            - {name: issue.edit.status}
+
+ project.create:
+        class: Acme\BugBundle\Services\ProjectCreateContainer
+        arguments: [@form.factory, @doctrine ]
+        tags:
+            - {name: project.create }
+
+ user.edit.profile:
+        class: Acme\BugBundle\Services\UserEditProfileContainer
+        arguments: [@form.factory, @doctrine ]
+        tags:
+            - {name: user.edit.profile }
+
+ admin.edit.profile:
+        class: Acme\BugBundle\Services\AdminEditProfileContainer
+        arguments:  [@form.factory, @doctrine ]
+        tags:
+            - {name: admin.edit.profile }

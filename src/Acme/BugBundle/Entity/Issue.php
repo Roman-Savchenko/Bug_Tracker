@@ -1,15 +1,19 @@
 <?php
 namespace Acme\BugBundle\Entity;
 
+use Doctrine\Common\EventManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\Event\PreUpdateEventArgs;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="issue")
+ * @ORM\HasLifecycleCallbacks
  **/
 
-class Issue
+class Issue implements GenerateCodeInterface
 {
     const STATUS_DISABLED = 0;
 
@@ -28,7 +32,7 @@ class Issue
     /**
      * @ORM\Column(type="string", length=20)
      */
-    protected $code;
+    protected $code = self::STATUS_DISABLED;
 
     /**
      * @ORM\Column(type="text")
@@ -55,6 +59,16 @@ class Issue
      * @ORM\Column(type="text", options={"default":0})
      */
     protected $resolution= self::STATUS_DISABLED;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="issue")
+     */
+    protected $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="issue")
+     */
+    public $activitys;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="issues_reporter")
@@ -86,6 +100,14 @@ class Issue
     protected $project;
 
     /**
+     * @var User[] $children
+     *
+     * @ORM\ManyToMany(targetEntity="Acme\BugBundle\Entity\User", inversedBy="assignedIssue")
+     * @ORM\JoinTable(name="issue_collaborator")
+     **/
+    protected $collaborators;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created;
@@ -102,6 +124,8 @@ class Issue
 
     public function __construct()
     {
+        $this->activitys = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
@@ -496,5 +520,107 @@ class Issue
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \Acme\BugBundle\Entity\Comment $comment
+     *
+     * @return Issue
+     */
+    public function addComment(\Acme\BugBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \Acme\BugBundle\Entity\Comment $comment
+     */
+    public function removeComment(\Acme\BugBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add activity
+     *
+     * @param \Acme\BugBundle\Entity\Activity $activity
+     *
+     * @return Issue
+     */
+    public function addActivity(\Acme\BugBundle\Entity\Activity $activity)
+    {
+        $this->activitys[] = $activity;
+
+        return $this;
+    }
+
+    /**
+     * Remove activity
+     *
+     * @param \Acme\BugBundle\Entity\Activity $activity
+     */
+    public function removeActivity(\Acme\BugBundle\Entity\Activity $activity)
+    {
+        $this->activitys->removeElement($activity);
+    }
+
+    /**
+     * Get activitys
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActivitys()
+    {
+        return $this->activitys;
+    }
+
+    /**
+     * Add collaborator
+     *
+     * @param \Tracker\UserBundle\Entity\User $collaborator
+     *
+     * @return Issue
+     */
+    public function addCollaborator(\Tracker\UserBundle\Entity\User $collaborator)
+    {
+        $this->collaborators[] = $collaborator;
+
+        return $this;
+    }
+
+    /**
+     * Remove collaborator
+     *
+     * @param \Tracker\UserBundle\Entity\User $collaborator
+     */
+    public function removeCollaborator(\Tracker\UserBundle\Entity\User $collaborator)
+    {
+        $this->collaborators->removeElement($collaborator);
+    }
+
+    /**
+     * Get collaborators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCollaborators()
+    {
+        return $this->collaborators;
     }
 }

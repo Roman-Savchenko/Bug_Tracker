@@ -18,30 +18,26 @@ class Comment
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=15)
-     */
-    protected $author;
-
-    /**
      * @ORM\Column(type="string", length=300)
      */
     protected $body;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $users;
+    protected $author;
 
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="comments")
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id")
+     */
+    protected $issue;
 
     /**
      * Get id
@@ -51,30 +47,6 @@ class Comment
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set author
-     *
-     * @param string $author
-     *
-     * @return Comment
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
     }
 
     /**
@@ -102,9 +74,33 @@ class Comment
     }
 
     /**
+     * Set issue
+     *
+     * @param \Acme\BugBundle\Entity\Issue $issue
+     *
+     * @return Comment
+     */
+    public function setIssue(\Acme\BugBundle\Entity\Issue $issue = null)
+    {
+        $this->issue = $issue;
+
+        return $this;
+    }
+
+    /**
+     * Get issue
+     *
+     * @return \Acme\BugBundle\Entity\Issue
+     */
+    public function getIssue()
+    {
+        return $this->issue;
+    }
+
+    /**
      * Set created
      *
-     * @param string $created
+     * @param \DateTime $created
      *
      * @return Comment
      */
@@ -118,7 +114,7 @@ class Comment
     /**
      * Get created
      *
-     * @return string
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -126,26 +122,26 @@ class Comment
     }
 
     /**
-     * Set users
+     * Set author
      *
-     * @param \Acme\BugBundle\Entity\User $users
+     * @param \Acme\BugBundle\Entity\User $author
      *
      * @return Comment
      */
-    public function setUsers(\Acme\BugBundle\Entity\User $users = null)
+    public function setAuthor(\Acme\BugBundle\Entity\User $author = null)
     {
-        $this->users = $users;
+        $this->author = $author;
 
         return $this;
     }
 
     /**
-     * Get users
+     * Get author
      *
      * @return \Acme\BugBundle\Entity\User
      */
-    public function getUsers()
+    public function getAuthor()
     {
-        return $this->users;
+        return $this->author;
     }
 }
